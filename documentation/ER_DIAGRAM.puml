@@ -1,0 +1,142 @@
+@startuml
+title Audino PostgreSQL Entity Relationship Diagram
+
+hide circle
+skinparam linetype ortho
+skinparam entity {
+  BackgroundColor #F8F9FA
+  BorderColor #2B2D42
+}
+
+entity "users" as users {
+  * username : VARCHAR(50) <<PK>>
+  --
+  password_hash : VARCHAR(255)
+  role : VARCHAR(20)
+}
+
+entity "patients" as patients {
+  * patient_id : VARCHAR(50) <<PK>>
+  --
+  first_name : VARCHAR(100)
+  last_name : VARCHAR(100)
+  date_of_birth : VARCHAR(50)
+  gender : VARCHAR(20)
+  contact_number : VARCHAR(50)
+  version : INTEGER
+}
+
+entity "patient_allergies" as patient_allergies {
+  * patient_id : VARCHAR(50) <<PK, FK>>
+  * allergy_name : VARCHAR(255) <<PK>>
+}
+
+entity "patient_conditions" as patient_conditions {
+  * patient_id : VARCHAR(50) <<PK, FK>>
+  * condition_name : VARCHAR(255) <<PK>>
+}
+
+entity "medications" as medications {
+  * medication_id : VARCHAR(50) <<PK>>
+  --
+  generic_name : VARCHAR(255)
+  brand_name : VARCHAR(255)
+  rxnorm_code : VARCHAR(50)
+  medication_type : VARCHAR(50)
+  strength : VARCHAR(50)
+  concentration : VARCHAR(50)
+  route : VARCHAR(50)
+  price_per_unit : NUMERIC(10,2)
+  version : INTEGER
+}
+
+entity "medication_ingredients" as medication_ingredients {
+  * medication_id : VARCHAR(50) <<PK, FK>>
+  * ingredient_name : VARCHAR(255) <<PK>>
+}
+
+entity "medication_identifiers" as medication_identifiers {
+  * medication_id : VARCHAR(50) <<PK, FK>>
+  * identifier_value : VARCHAR(255) <<PK>>
+}
+
+entity "prescriptions" as prescriptions {
+  * prescription_id : VARCHAR(50) <<PK>>
+  --
+  * patient_id : VARCHAR(50) <<FK>>
+  created_at : VARCHAR(50)
+  prescribed_by : VARCHAR(100)
+  status : VARCHAR(50)
+  total_bill : NUMERIC(10,2)
+  version : INTEGER
+}
+
+entity "prescription_alerts" as prescription_alerts {
+  * id : SERIAL <<PK>>
+  --
+  * prescription_id : VARCHAR(50) <<FK>>
+  alert_type : VARCHAR(50)
+  alert_level : VARCHAR(50)
+  message : TEXT
+  acknowledged : BOOLEAN
+}
+
+entity "prescribed_drugs" as prescribed_drugs {
+  * id : SERIAL <<PK>>
+  --
+  * prescription_id : VARCHAR(50) <<FK>>
+  * medication_id : VARCHAR(50) <<FK>>
+  dosage : VARCHAR(50)
+  frequency : VARCHAR(50)
+  duration : VARCHAR(50)
+  special_instructions : VARCHAR(255)
+  prescribed_by : VARCHAR(100)
+  total_cost : NUMERIC(10,2)
+}
+
+entity "interaction_rules" as interaction_rules {
+  * id : SERIAL <<PK>>
+  --
+  rule_type : VARCHAR(50)
+  keyword1 : VARCHAR(255)
+  keyword2 : VARCHAR(255)
+  severity : VARCHAR(50)
+  description : TEXT
+  recommendation : TEXT
+}
+
+entity "audit_logs" as audit_logs {
+  * id : BIGSERIAL <<PK>>
+  --
+  timestamp : TIMESTAMP
+  username : VARCHAR(50)
+  operation : VARCHAR(20)
+  entity_type : VARCHAR(50)
+  entity_id : VARCHAR(100)
+  details : TEXT
+}
+
+patients ||--o{ patient_allergies : "has"
+patients ||--o{ patient_conditions : "has"
+medications ||--o{ medication_ingredients : "contains"
+medications ||--o{ medication_identifiers : "identified by"
+
+patients ||--o{ prescriptions : "owns"
+prescriptions ||--o{ prescribed_drugs : "contains"
+prescriptions ||--o{ prescription_alerts : "generates"
+medications ||--o{ prescribed_drugs : "prescribed as"
+
+users ||--o{ audit_logs : "performs"
+users ||--o{ prescriptions : "prescribed_by"
+
+note bottom of audit_logs
+  Tracks all CRUD operations
+  for compliance (HIPAA/GDPR).
+end note
+
+note bottom of prescribed_drugs
+  ON DELETE CASCADE maintains
+  referential integrity.
+end note
+
+@enduml

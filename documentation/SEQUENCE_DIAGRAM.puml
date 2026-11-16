@@ -1,0 +1,65 @@
+@startuml
+title Audino Healthcare System - Add Medication Sequence
+
+actor User
+participant MainController as MC
+participant PricingPromptController as PC
+participant DataService as DS
+participant InteractionEngine as IE
+database PostgreSQLDB as DB
+
+User -> MC : selectPatient()
+activate MC
+MC -> DS : getActivePrescriberionForPatient(patientId)
+activate DS
+DS -> DB : SELECT from prescriptions
+activate DB
+DB --> DS : ResultSet
+deactivate DB
+DS --> MC : return Prescription
+deactivate DS
+MC --> User : updateUI()
+deactivate MC
+
+User -> MC : searchMedication(query)
+activate MC
+MC -> DS : searchMedications(query)
+activate DS
+DS --> MC : return filteredList
+deactivate DS
+MC --> User : display results
+deactivate MC
+
+User -> MC : selectMedication & enterDosage
+activate MC
+MC -> PC : openPricingPrompt(medication, dosage)
+activate PC
+PC --> MC : return calculatedPrice
+deactivate PC
+MC -> MC : addPrescribedDrug()
+
+MC -> IE : checkAllInteractionsAsync()
+activate IE
+IE -> IE : processRules()
+IE --> MC : CompletableFuture<List<InteractionAlert>>
+deactivate IE
+MC -> MC : updateAlertsView()
+MC --> User : showDraftStatus
+deactivate MC
+
+User -> MC : clickSave()
+activate MC
+MC -> DS : savePrescription(prescription)
+activate DS
+DS -> DB : conn.setAutoCommit(false)
+activate DB
+DS -> DB : executeBatch() / UPSERT
+DB --> DS : success
+DS -> DB : conn.commit()
+deactivate DB
+DS --> MC : return success
+deactivate DS
+MC --> User : showSaveConfirmation
+deactivate MC
+
+@enduml

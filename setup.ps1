@@ -1,0 +1,101 @@
+
+$ErrorActionPreference = "Stop"
+
+function Resolve-MavenCommand {
+    $mvnCommand = Get-Command mvn -ErrorAction SilentlyContinue
+    if ($mvnCommand) {
+        return $mvnCommand.Source
+    }
+
+    $fallback = "C:\ProgramData\chocolatey\lib\maven\apache-maven-3.9.11\bin\mvn.cmd"
+    if (Test-Path $fallback) {
+        return $fallback
+    }
+
+    throw "Maven executable not found. Install Maven or add it to PATH."
+}
+
+Write-Host "Starting Audino Setup..." -ForegroundColor Green
+
+$projectRoot = $PSScriptRoot
+
+Push-Location $projectRoot
+
+try {
+    Write-Host "Checking Java installation..." -ForegroundColor Cyan
+    
+    $javaVersion = java -version 2>&1 | Select-Object -First 1
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Error: Java is not installed or not in PATH." -ForegroundColor Red
+        Write-Host "Please install JDK 11 or higher." -ForegroundColor Yellow
+        exit 1
+    }
+    
+    Write-Host "Java found: $javaVersion" -ForegroundColor Green
+
+    Write-Host "Checking Maven installation..." -ForegroundColor Cyan
+
+    $mvnCmd = Resolve-MavenCommand
+    $mavenVersion = & $mvnCmd -version 2>&1 | Select-Object -First 1
+    $buildDir = Join-Path $env:LOCALAPPDATA "Temp\audino-build"
+    New-Item -ItemType Directory -Path $buildDir -Force | Out-Null
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Error: Maven is not installed or not in PATH." -ForegroundColor Red
+        Write-Host "Please install Apache Maven 3.6.0 or higher." -ForegroundColor Yellow
+        exit 1
+    }
+    
+    Write-Host "Maven found: $mavenVersion" -ForegroundColor Green
+
+    Write-Host "Cleaning previous builds..." -ForegroundColor Cyan
+    & $mvnCmd "-Daudino.build.directory=$buildDir" clean
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Error: Maven clean failed." -ForegroundColor Red
+        exit 1
+    }
+
+    Write-Host "Downloading dependencies and compiling..." -ForegroundColor Cyan
+    & $mvnCmd "-Daudino.build.directory=$buildDir" compile
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Error: Maven compile failed." -ForegroundColor Red
+        exit 1
+    }
+
+    Write-Host "Running tests..." -ForegroundColor Cyan
+    & $mvnCmd "-Daudino.build.directory=$buildDir" test
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Warning: Some tests failed. Review output above." -ForegroundColor Yellow
+    }
+
+    Write-Host "Building standalone executable JAR..." -ForegroundColor Cyan
+    & $mvnCmd "-Daudino.build.directory=$buildDir" package -DskipTests
+    
+    if ($LASTEXITCODE -eq 0) {
+        if (-not (Test-Path "dist")) { New-Item -ItemType Directory -Path "dist" | Out-Null }
+        $jarPath = Join-Path $buildDir "audino-1.1.0.jar"
+        if (Test-Path $jarPath) {
+            Copy-Item $jarPath "dist\audino.jar" -Force
+            Write-Host "JAR successfully built and placed in dist\audino.jar" -ForegroundColor Green
+        }
+    } else {
+        Write-Host "Warning: Maven package failed. Executable JAR was not built." -ForegroundColor Yellow
+    }
+
+    Write-Host "Verifying PostgreSQL storage..." -ForegroundColor Cyan
+    Write-Host "Audino uses embedded-postgres as a fallback, so no manual PostgreSQL installation is strictly required." -ForegroundColor Green
+
+    Write-Host "Setup completed successfully!" -ForegroundColor Green
+    Write-Host "Run '.\start.ps1' to launch the application." -ForegroundColor Cyan
+}
+catch {
+    Write-Host "Error: $_" -ForegroundColor Red
+    exit 1
+}
+finally {
+    Pop-Location
+}

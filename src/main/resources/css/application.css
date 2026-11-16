@@ -1,0 +1,333 @@
+/* Audino visual refresh — styling only; existing FXML classes and layout are preserved. */
+
+.root {
+    -fx-font-family: 'Segoe UI', 'Inter', sans-serif;
+    -fx-base: #F4F7FB;
+    -fx-background-color: #F4F7FB;
+    -fx-font-size: 13px;
+    -fx-text-fill: #243247;
+}
+
+.main-container {
+    -fx-background-color: #F4F7FB;
+}
+
+.header-container {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.title-bar {
+    -fx-padding: 10 20;
+    -fx-background-color: #173B63;
+}
+
+.app-title {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+}
+
+.date-label {
+    -fx-text-fill: #E7F0FA;
+    -fx-font-size: 14px;
+}
+
+.modern-toolbar {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 10 20;
+    -fx-spacing: 10;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.button {
+    -fx-font-weight: 600;
+    -fx-font-size: 13px;
+    -fx-padding: 8 15;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+    -fx-border-width: 1;
+}
+
+.primary-btn, .acknowledge-btn {
+    -fx-background-color: #2563A6;
+}
+.success-btn, .save-btn, .add-btn {
+    -fx-background-color: #16836F;
+}
+.secondary-btn {
+    -fx-background-color: #64748B;
+}
+.danger-btn {
+    -fx-background-color: #C74747;
+}
+.refresh-btn {
+    -fx-background-color: #B7791F;
+}
+
+.button:hover {
+    -fx-opacity: 0.88;
+}
+
+.button:focused {
+    -fx-border-color: #93C5FD;
+    -fx-border-width: 1;
+}
+
+.main-split-pane .split-pane-divider {
+    -fx-background-color: #E2E8F0;
+}
+
+.sidebar-panel, .content-panel, .alerts-panel {
+    -fx-padding: 15;
+    -fx-background-color: #FFFFFF;
+}
+
+.content-panel {
+    -fx-background-color: transparent;
+    -fx-spacing: 15;
+}
+
+.panel-title {
+    -fx-text-fill: #1E293B;
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+}
+
+.search-field, .form-field, .text-area {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #243247;
+    -fx-prompt-text-fill: #94A3B8;
+    -fx-border-color: #CBD5E1;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8 10;
+    -fx-font-size: 13px;
+}
+
+.search-field:focused, .form-field:focused, .text-area:focused {
+    -fx-border-color: #3B82C4;
+    -fx-border-width: 1.2;
+}
+
+.search-btn {
+    -fx-background-color: #EAF0F7;
+    -fx-text-fill: #29445F;
+    -fx-padding: 8 12;
+    -fx-border-color: #D7E1EC;
+}
+
+.modern-list-view {
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 1;
+    -fx-background-color: #FFFFFF;
+}
+
+.modern-list-view .list-cell {
+    -fx-padding: 10;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #EDF1F5;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #334155;
+}
+
+.modern-list-view .list-cell:selected {
+    -fx-background-color: #E8F1FA;
+    -fx-text-fill: #173B63;
+}
+
+.patient-info-card, .prescription-card, .add-medication-card, .alerts-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8;
+    -fx-padding: 15;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 1;
+}
+
+.card-header {
+    -fx-padding: 0 0 10 0;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #E8EDF3;
+}
+
+.card-title, .patient-name {
+    -fx-text-fill: #1E293B;
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+}
+
+.patient-id {
+    -fx-text-fill: #64748B;
+    -fx-background-color: #F1F5F9;
+    -fx-background-radius: 4;
+    -fx-padding: 2 6;
+}
+
+.med-count {
+    -fx-text-fill: #1D5F91;
+    -fx-background-color: #EAF3FB;
+    -fx-background-radius: 4;
+    -fx-padding: 4 8;
+}
+
+.detail-label, .section-label, .form-label {
+    -fx-text-fill: #475569;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+}
+
+.conditions-text {
+    -fx-text-fill: #64748B;
+}
+
+/* Keep table geometry unchanged; only update colors and borders. */
+.modern-table {
+    -fx-border-color: #E2E8F0;
+    -fx-background-color: #FFFFFF;
+}
+
+.modern-table .column-header {
+    -fx-background-color: #EDF3F8;
+    -fx-padding: 10;
+}
+
+.modern-table .column-header .label {
+    -fx-text-fill: #334B63;
+    -fx-font-weight: 700;
+}
+
+.modern-table .table-cell {
+    -fx-padding: 10;
+    -fx-border-color: #EDF1F5;
+    -fx-text-fill: #334155;
+}
+
+.modern-table .table-row-cell {
+    -fx-background-color: #FFFFFF;
+}
+
+.modern-table .table-row-cell:odd {
+    -fx-background-color: #FAFCFE;
+}
+
+.modern-table .table-row-cell:selected {
+    -fx-background-color: #E8F1FA;
+}
+
+.modern-table .table-row-cell:selected .table-cell {
+    -fx-text-fill: #173B63;
+}
+
+.alert-summary {
+    -fx-spacing: 10;
+}
+
+.alert-counter {
+    -fx-padding: 10;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1;
+    -fx-alignment: center;
+    -fx-min-width: 70;
+}
+
+.alert-counter.critical {
+    -fx-background-color: #FCEBEC;
+    -fx-border-color: #E8A5A8;
+}
+.alert-counter.warning {
+    -fx-background-color: #FFF6E5;
+    -fx-border-color: #E8C98A;
+}
+.alert-counter.info {
+    -fx-background-color: #EAF4FC;
+    -fx-border-color: #A9CDE8;
+}
+
+.alert-number {
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+}
+
+.alert-counter.critical .alert-number { -fx-text-fill: #A8323A; }
+.alert-counter.warning .alert-number { -fx-text-fill: #936313; }
+.alert-counter.info .alert-number { -fx-text-fill: #28658E; }
+
+.alert-type {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+}
+
+.alerts-list {
+    -fx-border-color: #E2E8F0;
+}
+
+.status-bar {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 8 20;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: #E2E8F0;
+}
+
+.status-text, .status-value, .prescription-status, .interaction-status {
+    -fx-font-size: 12px;
+}
+
+.dialog-container {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #D8E1EB;
+    -fx-border-width: 1;
+}
+
+.dialog-header {
+    -fx-background-color: transparent;
+    -fx-text-fill: #173B63;
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-padding: 5 0 10 0;
+    -fx-border-color: transparent transparent #E2E8F0 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.dialog-title {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+}
+
+.dialog-subtitle {
+    -fx-text-fill: #DCE8F4;
+    -fx-font-size: 13px;
+}
+
+.dialog-content {
+    -fx-padding: 20;
+    -fx-spacing: 20;
+}
+
+.dialog-actions {
+    -fx-background-color: #F8FAFC;
+    -fx-padding: 15;
+    -fx-spacing: 10;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: #E8EDF3;
+}
+
+.cancel-btn {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #334155;
+    -fx-border-color: #CBD5E1;
+}
+
+.combo-box, .date-picker {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #CBD5E1;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}

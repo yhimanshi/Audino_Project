@@ -1,0 +1,58 @@
+@startuml
+title Audino Healthcare System - Prescription Authoring Activity
+
+start
+
+:Clinician logs in via Authentication Prompt;
+if (Credentials Valid?) then (yes)
+  :Load Main Window UI;
+else (no)
+  :Show Error Message;
+  stop
+endif
+
+:Select Patient from Patient List;
+:Retrieve Patient Medical History and Allergies;
+
+repeat
+  :Search for Medication;
+  :Select Medication from Results;
+  :Enter Dosage, Frequency, and Duration;
+  :Pricing Prompt calculates Billing Estimate;
+  :Add PrescribedDrug to Prescription;
+  
+  fork
+    :Check Allergy Conflicts;
+  fork again
+    :Check Drug-Drug Interactions;
+  fork again
+    :Check Condition Contraindications;
+  end fork
+  
+  if (Alerts Found?) then (yes)
+    :Display Alerts in UI;
+    :Clinician reviews Alerts;
+    if (Acknowledge Alerts?) then (yes)
+      :Proceed with Medication;
+    else (no)
+      :Remove Medication from Prescription;
+    endif
+  else (no)
+    :Proceed with Medication;
+  endif
+  
+repeat while (Add more medications?) is (yes)
+
+:Click Save Prescription;
+:DataService initiates ACID Transaction;
+
+if (Transaction Successful?) then (yes)
+  :PostgreSQL executes Commit;
+  :Show Success Confirmation;
+else (no)
+  :PostgreSQL executes Rollback;
+  :Show Error Message;
+endif
+
+stop
+@enduml
