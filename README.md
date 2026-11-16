@@ -42,48 +42,48 @@ The graphical interface provides multiple distinct functional areas for daily op
 
 ### System Architecture:
 ![System Architecture Diagram](visuals/SystemArchitectureDiagram.png)
-This view illustrates the core components and their interaction pathways.
+<br>This view illustrates the core components and their interaction pathways.
 
 ### Main Dashboard:
 ![Main Window](visuals/AudinoMainWindowWithPatientData.png)
-This view provides the primary workspace for selecting patients and authoring prescriptions.
+<br>This view provides the primary workspace for selecting patients and authoring prescriptions.
 
 ### Authentication Window:
 ![Login Window](visuals/AudinoLoginWindow.png)
-This view provides secure access control using salted BCrypt credentials.
+<br>This view provides secure access control using salted BCrypt credentials.
 
 ### Add Patient Modal:
 ![Add Patient](visuals/AudinoAddPatientDataWindow.png)
-This view collects vital demographic and clinical condition data.
+<br>This view collects vital demographic and clinical condition data.
 
 ### Edit Patient Modal:
 ![Edit Patient](visuals/AudinoEditPatientDataWindow.png)
-This view updates existing clinical profiles.
+<br>This view updates existing clinical profiles.
 
 ### Medication Management Window:
 ![Medication List](visuals/AudinoAdminChnageMedsListWindow.png)
-This view permits authorized users to update the core medication database.
+<br>This view permits authorized users to update the core medication database.
 
 ### Search Bar Recommendations:
 ![Search Recommendations](visuals/AudinoSearchBarRecommendations.png)
-This view dynamically suggests matching medications using an NLP pipeline.
+<br>This view dynamically suggests matching medications using an NLP pipeline.
 
 ### Interaction Acknowledgements:
 ![Alerts](visuals/AudinoInteractionsAlerts_Acknowledgements.png)
-This view forces explicit clinician review of detected drug interactions.
+<br>This view forces explicit clinician review of detected drug interactions.
 
 ### Generated PDF Document:
 ![Prescription PDF](visuals/AudinoGeneratedPrescription.png)
-This view displays the dynamically generated branded PDF record for print.
+<br>This view displays the dynamically generated branded PDF record for print.
 
 ### Audit Logs Dashboard:
 ![Audit Logs](visuals/AudinoAuditLogsWindow.png)
-This view displays read only historical system events for security tracking.
+<br>This view displays read only historical system events for security tracking.
 
 ### User Management Control:
 ![Add User](visuals/AudinoAddUsersWindow.png)
-This view permits the provisioning of new clinical accounts.
+<br>This view permits the provisioning of new clinical accounts.
 
 ### Password Configuration:
 ![Change Password](visuals/AudinoChangePasswordWindow.png)
-This view allows clinicians to securely update their access credentials.
+<br>This view allows clinicians to securely update their access credentials.
